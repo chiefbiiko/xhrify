@@ -8,7 +8,18 @@ var ERR = {
   }
 }
 
-var METH = [ 'get', 'head', 'put', 'post', 'delete' ] // forget the rest 4 now
+var METH = [ 'get', 'head', 'put', 'post' ] // forget the rest 4 now
+
+function mapHeaders (stringheaders) {
+  return stringheaders.trim().split(/[\r\n]+/)
+    .reduce(function (acc, cur) {
+      var parts = cur.split(': ')
+      var key = parts.shift()
+      var value = parts.join(': ')
+      acc[key] = value
+      return acc
+    }, {})
+}
 
 function xhrify (conf, cb) {
   if (!conf || !cb) throw(ERR.NOOP)
@@ -29,11 +40,16 @@ function xhrify (conf, cb) {
     xhr.setRequestHeader(header[0], header[1])
   })
 
-  xhr.open(conf.method, conf.url, true)
-
-  xhr.addEventListener('load', function (e) {
-    xhr.status === 200 ? cb(null, xhr.response) : cb(ERR.NOTOK(xhr.status))
+  xhr.addEventListener('load', function () {
+    if (xhr.status !== 200) return cb(ERR.NOTOK(xhr.status))
+    var headers = mapHeaders(xhr.getAllResponseHeaders())
+    var body = xhr.response || xhr.responseText || xhr.responseXML
+    cb(null, { headers: headers, body: body }) 
   })
+
+  xhr.withCredentials = !!conf.withCredentials
+
+  xhr.open(conf.method, conf.url, true)
 
   xhr.send(/^(put|post)$/i.test(conf.method) ? conf.data : null)
 }
