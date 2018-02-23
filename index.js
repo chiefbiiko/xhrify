@@ -54,4 +54,4 @@ function xhrify (conf, cb) {
   xhr.send(/^(put|post)$/i.test(conf.method) ? conf.data : null)
 }
 
-module.exports = xhrify
+window.xhrify = xhrify
