@@ -55,3 +55,4 @@ function xhrify (conf, cb) {
 }
 
 window.xhrify = xhrify
+module.exports = xhrify
