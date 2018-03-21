@@ -11,3 +11,16 @@ tape('xhrify - GET', function (t) {
     t.end()
   })
 })
+
+tape('xhrify - HEAD', function (t) {
+  var conf = {
+    url: 'https://raw.githubusercontent.com/chiefbiiko/siphash24-stream/master/index.js',
+    method: 'head'
+  }
+  xhrify(conf, function (err, res) {
+    if (err) t.end(err)
+    t.ok(Object.keys(res.headers).length, 'got some headers')
+    t.notOk(res.body, 'body is null')
+    t.end()
+  })
+})
