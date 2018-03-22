@@ -1,3 +1,5 @@
+// TODO: implement more HTTP methods
+
 var ERR = {
   URL: Error('no url'),
   DATA: Error('no data'),
@@ -8,7 +10,7 @@ var ERR = {
   }
 }
 
-var METH = [ 'get', 'head', 'put', 'post' ] // forget the rest 4 now
+var METH = [ 'get', 'head', 'put', 'post' ]
 
 function mapHeaders (stringheaders) {
   return stringheaders.trim().split(/[\r\n]+/)
@@ -34,10 +36,8 @@ function xhrify (conf, cb) {
 
   conf.headers = conf.headers || {}
 
-  Object.keys(conf.headers).map(function (key) {
-    return [ key, conf.headers[key] ]
-  }).forEach(function (header) {
-    xhr.setRequestHeader(header[0], header[1])
+  Object.keys(conf.headers).forEach(function (key) {
+    xhr.setRequestHeader(key, conf.headers[key])
   })
 
   xhr.addEventListener('load', function () {
