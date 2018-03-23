@@ -1,16 +1,11 @@
-// TODO: implement more HTTP methods
-
 var ERR = {
   URL: Error('no url'),
   DATA: Error('no data'),
-  METH: Error('unsupported method'),
   NOOP: Error('noops not allowed'),
   HTTP: function (status) {
     return Error('unexpected HTTP response status ' + status)
   }
 }
-
-var METH = [ 'get', 'head', 'put', 'post' ]
 
 function mapHeaders (stringheaders) {
   return stringheaders.trim().split(/[\r\n]+/)
@@ -29,7 +24,6 @@ function xhrify (conf, cb) {
 
   conf.method = conf.method ? conf.method.toLowerCase() : 'get' 
 
-  if (!METH.includes(conf.method)) return cb(ERR.METH)
   if (/^(put|post)$/i.test(conf.method) && !conf.data) return cb(ERR.DATA)
 
   var xhr = new XMLHttpRequest()
