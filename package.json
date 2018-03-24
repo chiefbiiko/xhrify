@@ -4,7 +4,7 @@
   "description": "node-style xhr requests",
   "main": "index.js",
   "scripts": {
-    "test": "tape test.js"
+    "test": "browserify test.js | tape-run"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/chiefbiiko/xhrify#readme",
   "devDependencies": {
-    "tape": "^4.9.0"
+    "browserify": "^16.1.1",
+    "tape": "^4.9.0",
+    "tape-run": "^3.0.4"
   }
 }
