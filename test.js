@@ -25,11 +25,22 @@ tape('xhrify - HEAD', function (t) {
   })
 })
 
-tape('xhrify - error', function () {
+tape('xhrify - error pt 1', function () {
   var conf = {
     url: 'https://raw.githubusercontent.com/chiefbiiko/siphash24-stream/master/index.js',
     method: 'post'
     // ,data: 'fraud'
+  }
+  xhrify(conf, function (err, res) {
+    t.ok(err, 'got some error')
+    t.end()
+  })
+})
+
+tape('xhrify - error pt 2', function () {
+  var conf = {
+    url: 'https://raw.githubusercontent.com/chiefbiiko/siphash24-stream/master/index.js',
+    method: 'options'
   }
   xhrify(conf, function (err, res) {
     t.ok(err, 'got some error')
