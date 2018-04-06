@@ -47,3 +47,14 @@ tape('xhrify - error pt 2', function (t) {
     t.end()
   })
 })
+
+tape('xhrify - error pt 3', function (t) {
+  var conf = {
+    url: 'https://',
+    method: 'options'
+  }
+  xhrify(conf, function (err, res) {
+    t.ok(err, 'invalid url')
+    t.end()
+  })
+})
